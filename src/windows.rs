@@ -37,7 +37,7 @@ impl fmt::Display for Errno {
                                                langId,
                                                buf.as_mut_ptr(),
                                                buf.len() as DWORD,
-                                               ptr::null());
+                                               ptr::null_mut());
             if res == 0 {
                 // Sometimes FormatMessageW can fail e.g. system doesn't like langId
                 let Errno(fm_err) = errno();
