@@ -30,14 +30,14 @@ impl fmt::Display for Errno {
         let mut buf = [0 as WCHAR; 2048];
 
         unsafe {
-            let res = FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM |
-                                     FORMAT_MESSAGE_IGNORE_INSERTS,
-                                     ptr::null_mut(),
-                                     self.0,
-                                     langId,
-                                     buf.as_mut_ptr(),
-                                     buf.len() as DWORD,
-                                     ptr::null());
+            let res = kernel32::FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM |
+                                               FORMAT_MESSAGE_IGNORE_INSERTS,
+                                               ptr::null_mut(),
+                                               self.0,
+                                               langId,
+                                               buf.as_mut_ptr(),
+                                               buf.len() as DWORD,
+                                               ptr::null());
             if res == 0 {
                 // Sometimes FormatMessageW can fail e.g. system doesn't like langId
                 let Errno(fm_err) = errno();
