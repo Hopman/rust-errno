@@ -14,7 +14,7 @@
 
 use std::fmt;
 use std::ptr;
-use libc::{DWORD, LPWSTR, LPVOID, WCHAR};
+use libc::{DWORD, WCHAR};
 use kernel32;
 use winapi::{FORMAT_MESSAGE_FROM_SYSTEM, FORMAT_MESSAGE_IGNORE_INSERTS};
 
@@ -25,7 +25,7 @@ impl fmt::Display for Errno {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         // This value is calculated from the macro
         // MAKELANGID(LANG_SYSTEM_DEFAULT, SUBLANG_SYS_DEFAULT)
-        let langId = 0x0800 as DWORD;
+        let lang_id = 0x0800 as DWORD;
 
         let mut buf = [0 as WCHAR; 2048];
 
@@ -34,7 +34,7 @@ impl fmt::Display for Errno {
                                                FORMAT_MESSAGE_IGNORE_INSERTS,
                                                ptr::null_mut(),
                                                self.0,
-                                               langId,
+                                               lang_id,
                                                buf.as_mut_ptr(),
                                                buf.len() as DWORD,
                                                ptr::null_mut());
